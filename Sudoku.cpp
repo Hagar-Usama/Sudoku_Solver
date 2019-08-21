@@ -48,7 +48,7 @@ bool Sudoku::solve(){
     pair<int,int> coordinate = get_empty_cell();
 
 
-    for(int i=31 ; i<40; i++){
+    for(int i='1' ; i<='9'; i++){
 
         if(isLegal(coordinate.first , coordinate.second , i))
           { board[coordinate.first][coordinate.second] = i;
