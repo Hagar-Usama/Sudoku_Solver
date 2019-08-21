@@ -12,6 +12,7 @@ class Sudoku{
 	Sudoku();
 	void print_board();
         void fill_board();
+        bool solve();
         void try2();
 
 
@@ -32,11 +33,53 @@ class Sudoku{
         bool occurs_in_row(int row , char val);
         bool occurs_in_col(int col , char val);
         bool occurs_in_box(int srow , int scol,char val);
+        bool isLegal(int row , int col, char val);
+        pair<int,int> get_empty_cell();
         bool try_it();
 	};
 
 bool Sudoku::try_it(){return true;}
 void Sudoku::try2(){if(try_it()) cout<<"Hello from Here";}
+
+bool Sudoku::solve(){
+
+    if(get_empty_cell() == std::make_pair(DIMENSION,DIMENSION)) return true;
+
+    pair<int,int> coordinate = get_empty_cell();
+
+
+    for(int i=31 ; i<40; i++){
+
+        if(isLegal(coordinate.first , coordinate.second , i))
+          { board[coordinate.first][coordinate.second] = i;
+            if(solve())
+               return true;
+
+            board[coordinate.first][coordinate.second] = BLANK;
+
+          }
+
+
+
+    }
+
+    return false;
+}
+pair<int,int> Sudoku::get_empty_cell(){
+
+    for(int row =0 ; row < DIMENSION ; row++)
+       for(int col = 0; col < DIMENSION ; col++)
+           if(board[row][col] == BLANK)
+               return std::make_pair(row,col);
+
+    return std::make_pair(DIMENSION,DIMENSION);
+}
+
+bool Sudoku::isLegal(int row, int col, char val){
+    return    !occurs_in_row(row , val)
+           && !occurs_in_col(col , val)
+           && !occurs_in_box(row - row%3 , col - col%3 , val);
+}
 
 bool Sudoku::occurs_in_row(int row, char val){
 
@@ -131,7 +174,8 @@ Sudoku s;
 
 //s.fill_board();
 s.print_board();
-s.try2();
+s.solve();
+s.print_board();
 
 return 0;
 }
