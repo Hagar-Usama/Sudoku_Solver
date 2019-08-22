@@ -1,11 +1,33 @@
 #include <iostream>
 #include <cstdio>
+#include <stdlib.h>
 using namespace std;
 
 
 #define BLANK '_'
 #define DIMENSION 9
 #define BOX_SIZE  3
+
+/*
+void write_file(){
+
+
+       int num=5;
+       FILE *fptr;
+       fptr = fopen("problem.txt","w");
+       if(fptr == NULL)
+       {
+          printf("Error!");
+          exit(1);
+       }
+       fprintf(fptr,"%d",num);
+       fclose(fptr);
+
+}
+*/
+
+
+
 class Sudoku{
 	
 	public:
@@ -13,6 +35,9 @@ class Sudoku{
 	void print_board();
         void fill_board();
         bool solve();
+        void write_problem();
+        void write_answer();
+        //char** get_board();
         void try2();
 
 
@@ -35,11 +60,39 @@ class Sudoku{
         bool occurs_in_box(int srow , int scol,char val);
         bool isLegal(int row , int col, char val);
         pair<int,int> get_empty_cell();
+        void write_in_file(char* filename);
+
         bool try_it();
 	};
 
 bool Sudoku::try_it(){return true;}
 void Sudoku::try2(){if(try_it()) cout<<"Hello from Here";}
+
+void Sudoku::write_problem(){write_in_file("problem.txt");}
+void Sudoku::write_answer(){write_in_file("answer.txt");}
+
+void Sudoku::write_in_file(char* filename){
+
+    FILE *fptr;
+    fptr = fopen(filename,"w");
+       if(fptr == NULL)
+       {
+          perror("Error");
+          exit(1);
+       }
+
+       fprintf(fptr,"%d\n",DIMENSION);
+
+
+       for(int row=0; row<DIMENSION ; row++){
+           for(int col = 0; col<DIMENSION; col++)
+               fprintf(fptr,"%c ",board[row][col]);
+           fprintf(fptr,"\n");
+
+       }
+       fclose(fptr);
+
+}
 
 bool Sudoku::solve(){
 
@@ -152,19 +205,25 @@ void Sudoku::fill_board(){
 
 
 void Sudoku::print_board(){
-	cout<<"-------------------------------------"<<endl;
-	for (int i =0 ; i<DIMENSION ; i++){
-		
+        //cout<<"-------------------------------------"<<endl;
+    cout<<endl;
+        for (int i =0 ; i<DIMENSION ; i++){
+            if(i %3 ==0) cout<<"========================================="<<endl;
+            else         cout<<"-----------------------------------------"<<endl;
+
+
 		for(int j=0 ; j<DIMENSION ; j++)
 		{
+                        if(j %3 ==0) printf("|");
 			printf("| %c ",board[i][j]);
+
 			
 			}
-		cout<<"|"<<endl;
-        cout<<"-------------------------------------"<<endl;
-		}
+                cout<<"||"<<endl;
+                }
 	
-	
+        cout<<"========================================="<<endl;
+
 	}
 
 
@@ -173,9 +232,13 @@ int main(){
 Sudoku s;
 
 //s.fill_board();
+s.write_problem();
 s.print_board();
 s.solve();
 s.print_board();
+//write_in_file("problem.txt",s)
+//concatinate all functions in one >> run();
+//write_in_file("problem.txt",DIMENSION);
 
 return 0;
 }
