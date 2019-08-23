@@ -13,27 +13,49 @@ class Sudoku{
 	
 	public:
 	Sudoku();
+        //print the board (stdout)
 	void print_board();
+        //get the board values (stdin)
         void fill_board();
+        //solve the Sudoku board
         bool solve();
+        //write the problem in problem.txt file (not used)
         void write_problem();
+        //write the answer in anwser.txt file
         void write_answer();
+        //load the problem from problem.txt
         void load_problem();
+        //load the problem - solve it - write it back in file
+        void run();
         //char** get_board();
 
 
 	private:
+        //board array for the program (c-style)
         char board[DIMENSION][DIMENSION];
-
+        //check if the digit is found in the row
         bool occurs_in_row(int row , char val);
+        //check if the digit is found in the column
         bool occurs_in_col(int col , char val);
+        //check if the digit is found in the box
         bool occurs_in_box(int srow , int scol,char val);
+        //check if the cell doesn't violate the game rules
         bool isLegal(int row , int col, char val);
+        //search for empty cell to assign value to it and return its coordinates
         pair<int,int> get_empty_cell();
+        //write the board in file
         void write_in_file(const char* filename);
 
 
 	};
+
+void Sudoku::run(){
+                   load_problem();
+                   //print_board();
+                   solve();
+                   //print_board();
+                   write_answer();
+}
 
 void Sudoku::write_problem(){write_in_file("problem.txt");}
 void Sudoku::write_answer(){write_in_file("answer.txt");}
@@ -74,6 +96,7 @@ void Sudoku::load_problem(){
 
 
 }
+
 void Sudoku::write_in_file(const char* filename){
 
     FILE *fptr;
@@ -97,20 +120,25 @@ void Sudoku::write_in_file(const char* filename){
 
 }
 
+/**  **/
 bool Sudoku::solve(){
 
+    //if value returned is (DIMENSION,DIMENSION) this means the whole board is done then return 1
     if(get_empty_cell() == std::make_pair(DIMENSION,DIMENSION)) return true;
+
 
     pair<int,int> coordinate = get_empty_cell();
 
-
+    //trying to assign value [1:9]
     for(int i='1' ; i<='9'; i++){
 
+        //if the assumption is valid then apply it
         if(isLegal(coordinate.first , coordinate.second , i))
           { board[coordinate.first][coordinate.second] = i;
-            if(solve())
-               return true;
+            if(solve()) //call solve again to check the validity recursively
+               return true; //base case
 
+            //if not solved just let the cell no assigned again
             board[coordinate.first][coordinate.second] = BLANK;
 
           }
@@ -121,6 +149,9 @@ bool Sudoku::solve(){
 
     return false;
 }
+
+
+
 pair<int,int> Sudoku::get_empty_cell(){
 
     for(int row =0 ; row < DIMENSION ; row++)
@@ -131,11 +162,13 @@ pair<int,int> Sudoku::get_empty_cell(){
     return std::make_pair(DIMENSION,DIMENSION);
 }
 
+// only when all rules are valid return true
 bool Sudoku::isLegal(int row, int col, char val){
     return    !occurs_in_row(row , val)
            && !occurs_in_col(col , val)
            && !occurs_in_box(row - row%3 , col - col%3 , val);
 }
+
 
 bool Sudoku::occurs_in_row(int row, char val){
 
@@ -160,6 +193,7 @@ bool Sudoku::occurs_in_box(int srow , int scol , char val){
     return false;
 }
 
+//constructor
 Sudoku::Sudoku(){
 	
 /*
