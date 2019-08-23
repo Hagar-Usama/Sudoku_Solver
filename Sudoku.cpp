@@ -1,6 +1,6 @@
 #include <iostream>
 #include <cstdio>
-#include <stdlib.h>
+#include <cstdlib>
 using namespace std;
 
 
@@ -8,6 +8,7 @@ using namespace std;
 #define DIMENSION 9
 #define BOX_SIZE  3
 
+//unsigned int DIMENSION = 9;
 /*
 void write_file(){
 
@@ -37,6 +38,7 @@ class Sudoku{
         bool solve();
         void write_problem();
         void write_answer();
+        void load_problem();
         //char** get_board();
         void try2();
 
@@ -70,7 +72,88 @@ void Sudoku::try2(){if(try_it()) cout<<"Hello from Here";}
 
 void Sudoku::write_problem(){write_in_file("problem.txt");}
 void Sudoku::write_answer(){write_in_file("answer.txt");}
+void Sudoku::load_problem(){
 
+
+       FILE *fp;
+       int c;
+       int size;
+       char buffer[19];
+
+
+       fp = fopen("problem.txt","r");
+       if(fp == NULL) {
+          perror("Error");
+          exit(1);
+       }
+        size = fgetc(fp);
+        fgetc(fp);
+
+/** getdelim(char **lineptr, size_t *n, int delim, FILE *stream);**/
+/** ssize_t getline(char **lineptr, size_t *n, FILE *stream);**/
+
+        int len = 18;
+
+        char* line = (char *)calloc(512, sizeof(char));
+       /*
+        if(NULL == line) {
+             // getline() will realloc() if too small
+            line = (char *)calloc(512, sizeof(char));
+        }
+        */
+
+        for(int i=0 ; i< DIMENSION ; i++){
+
+            getline((char**)&line, (size_t *)&len, (FILE *)fp);
+            printf("line is : %s",line);
+
+        }
+
+  /*
+        for(int i=0 ; i<DIMENSION*2 ; i++){
+            //fscanf(fp, "%18[^\n]\n", buffer);
+            fgets(buffer, sizeof(buffer), fp);
+            //c = fgetc(fp);
+            printf("Line #%d:", i);
+            printf("%s\n",buffer);
+           //fscanf(fp, "%[^\n]", buffer);
+
+         }
+*/
+/*
+
+        for(int row=0 ; row< DIMENSION ; row++){
+           for(int col=0 ; col < 2*DIMENSION+1 ; col++){
+              c = fgetc(fp);
+              if(col%2 == 0){
+               board[row][col] = c;
+              }
+           }
+       }
+*/
+
+       /*
+       for(int row=0 ; row< DIMENSION ; row++){
+           for(int col=0 ; col < DIMENSION ; col++){
+              fscanf(fp, "%c", buffer);
+              board[row][col] = buffer;
+           } fscanf(fp, "%c", buffer);
+
+
+
+       }*/
+
+       /*
+       fgets(buff, 255, (FILE*)fp);
+       printf("2: %s\n", buff );
+
+       fgets(buff, 255, (FILE*)fp);
+       printf("3: %s\n", buff );
+    */
+    fclose(fp);
+
+
+}
 void Sudoku::write_in_file(char* filename){
 
     FILE *fptr;
@@ -232,6 +315,8 @@ int main(){
 Sudoku s;
 
 //s.fill_board();
+s.load_problem();
+s.print_board();
 s.write_problem();
 s.print_board();
 s.solve();
