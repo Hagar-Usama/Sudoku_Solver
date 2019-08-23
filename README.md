@@ -19,8 +19,9 @@ $ ./Sudoku
 
 
 * Second : run the script "shell_run" by just clicking on it and selecting execute (if required)
+ ![execute](https://github.com/Hagar-Usama/Sudoku_Solver/blob/master/screenshots/execute_shell.png)
     - make sure in the file properties (is executable is checked)   
-    - ![run_script](https://github.com/Hagar-Usama/Sudoku_Solver/blob/master/screenshots/shell_config.png)
+    ![run_script](https://github.com/Hagar-Usama/Sudoku_Solver/blob/master/screenshots/shell_config.png)
 
  
 
@@ -40,7 +41,8 @@ You can also:
 
 License
 ----
-GNU General Public License v3.0
+- GNU General Public License v3.0
+
 Screenshots
 ----
 ![Compile_terminal](https://github.com/Hagar-Usama/Sudoku_Solver/blob/master/screenshots/compile_in_terminal.png)
