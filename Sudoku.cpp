@@ -1,33 +1,13 @@
 #include <iostream>
 #include <cstdio>
 #include <cstdlib>
+
 using namespace std;
 
 
 #define BLANK '_'
 #define DIMENSION 9
 #define BOX_SIZE  3
-
-//unsigned int DIMENSION = 9;
-/*
-void write_file(){
-
-
-       int num=5;
-       FILE *fptr;
-       fptr = fopen("problem.txt","w");
-       if(fptr == NULL)
-       {
-          printf("Error!");
-          exit(1);
-       }
-       fprintf(fptr,"%d",num);
-       fclose(fptr);
-
-}
-*/
-
-
 
 class Sudoku{
 	
@@ -40,7 +20,6 @@ class Sudoku{
         void write_answer();
         void load_problem();
         //char** get_board();
-        void try2();
 
 
 	private:
@@ -53,16 +32,12 @@ class Sudoku{
         pair<int,int> get_empty_cell();
         void write_in_file(const char* filename);
 
-        bool try_it();
-	};
 
-bool Sudoku::try_it(){return true;}
-void Sudoku::try2(){if(try_it()) cout<<"Hello from Here";}
+	};
 
 void Sudoku::write_problem(){write_in_file("problem.txt");}
 void Sudoku::write_answer(){write_in_file("answer.txt");}
 void Sudoku::load_problem(){
-
 
        FILE *fp;
        //int size;
@@ -74,23 +49,20 @@ void Sudoku::load_problem(){
        }
 
        /** the following 2 statements are just to get the size of board
-        * which is not activated so far
+        * which is not activated
         **/
-
         //size = fgetc(fp);
         fgetc(fp); fgetc(fp);
 
 /** getdelim(char **lineptr, size_t *n, int delim, FILE *stream);**/
 /** ssize_t getline(char **lineptr, size_t *n, FILE *stream);**/
 
-        int len = 17;
-        char* line = (char *)calloc(32, sizeof(char));
+        int len = DIMENSION * 2 -1;
+        char* line = (char *)calloc(DIMENSION*2+1, sizeof(char));
 
         for(int i=0 ; i< DIMENSION ; i++){
 
             getline((char**)&line, (size_t *)&len, (FILE *)fp);
-            printf("line is : %s",line);
-
 
             for(int col=0 ; col < 2*DIMENSION+1 ; col+=2){
                      board[i][col/2] = line[col];
@@ -206,16 +178,17 @@ Sudoku::Sudoku(){
 */
 
 
-/*
+
+
+ //Initializing the board as blank
     for(int i=0 ; i<DIMENSION ; i++){
 
                 for(int j=0 ; j<DIMENSION ; j++)
 
                         board[i][j] = '_';
     }
-*/
 
-    }
+  }
 
 
 	
@@ -262,18 +235,13 @@ int main(){
 
 Sudoku s;
 
-//s.fill_board();
 s.load_problem();
 s.print_board();
 
-//s.write_problem();
-//s.print_board();
 s.solve();
 s.print_board();
 s.write_answer();
-//write_in_file("problem.txt",s)
-//concatinate all functions in one >> run();
-//write_in_file("problem.txt",DIMENSION);
+
 
 return 0;
 }

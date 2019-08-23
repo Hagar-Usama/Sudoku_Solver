@@ -1,0 +1,4 @@
+#!/bin/bash
+clear
+g++ -Wall -o s_shell Sudoku.cpp
+./s_shell
