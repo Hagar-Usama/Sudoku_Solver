@@ -138,13 +138,10 @@ bool Sudoku::solve(){
             if(solve()) //call solve again to check the validity recursively
                return true; //base case
 
-            //if not solved just let the cell no assigned again
+            //if not solved just let the cell be not assigned again
             board[coordinate.first][coordinate.second] = BLANK;
 
           }
-
-
-
     }
 
     return false;
@@ -225,20 +222,11 @@ Sudoku::Sudoku(){
   }
 
 
-	
-
 
 void Sudoku::fill_board(){
-    for(int i=0 ; i<DIMENSION ; i++){
-
+    for(int i=0 ; i<DIMENSION ; i++)
             for(int j=0 ; j<DIMENSION ; j++)
-
                    cin>> board[i][j] ;
-
-            }
-
-
-
 }
 
 
@@ -249,18 +237,14 @@ void Sudoku::print_board(){
             if(i %3 ==0) cout<<"========================================="<<endl;
             else         cout<<"-----------------------------------------"<<endl;
 
-
 		for(int j=0 ; j<DIMENSION ; j++)
-		{
-                        if(j %3 ==0) printf("|");
-			printf("| %c ",board[i][j]);
-
-			
-			}
+                {       if(j %3 ==0) printf("|");
+                         printf("| %c ",board[i][j]);
+                }
                 cout<<"||"<<endl;
                 }
 	
-        cout<<"========================================="<<endl;
+                        cout<<"========================================="<<endl;
 
 	}
 
@@ -269,9 +253,10 @@ int main(){
 
 Sudoku s;
 
+cout<<"*.*.*.*.*.Loading the Board.*.*.*.*.*"<<endl;
 s.load_problem();
 s.print_board();
-
+cout<<"*.*.*.*.*.Solving the Board.*.*.*.*.*"<<endl;
 s.solve();
 s.print_board();
 s.write_answer();
