@@ -32,7 +32,8 @@ You can also:
     - [Visual Studio Code](https://code.visualstudio.com/)
  
   
-### Todos / What's next
+Todos / What's next
+---
 
 
  - Checking text file validity using Regular Expressions
