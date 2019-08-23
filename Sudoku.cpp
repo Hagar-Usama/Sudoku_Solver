@@ -44,25 +44,14 @@ class Sudoku{
 
 
 	private:
-        char board[DIMENSION][DIMENSION] = {
-
-            { '_', '_', '4',   '_', '_', '_',   '_', '6', '7' },
-            { '3', '_', '_',   '4', '7', '_',   '_', '_', '5' },
-            { '1', '5', '_',   '8', '2', '_',   '_', '_', '3' },
-            { '_', '_', '6',   '_', '_', '_',   '_', '3', '1' },
-            { '8', '_', '2',   '1', '_', '5',   '6', '_', '4' },
-            { '4', '1', '_',   '_', '_', '_',   '9', '_', '_' },
-            { '7', '_', '_',   '_', '8', '_',   '_', '4', '6' },
-            { '6', '_', '_',   '_', '1', '2',   '_', '_', '_' },
-            { '9', '3', '_',   '_', '_', '_',   '7', '1', '_' }
-        };
+        char board[DIMENSION][DIMENSION];
 
         bool occurs_in_row(int row , char val);
         bool occurs_in_col(int col , char val);
         bool occurs_in_box(int srow , int scol,char val);
         bool isLegal(int row , int col, char val);
         pair<int,int> get_empty_cell();
-        void write_in_file(char* filename);
+        void write_in_file(const char* filename);
 
         bool try_it();
 	};
@@ -76,23 +65,27 @@ void Sudoku::load_problem(){
 
 
        FILE *fp;
-       int c;
-       int size;
-       char buffer[19];
+       //int size;
 
        fp = fopen("problem.txt","r");
        if(fp == NULL) {
           perror("Error");
           exit(1);
        }
-        size = fgetc(fp);
-        fgetc(fp);
+
+       /** the following 2 statements are just to get the size of board
+        * which is not activated so far
+        **/
+
+        //size = fgetc(fp);
+        fgetc(fp); fgetc(fp);
 
 /** getdelim(char **lineptr, size_t *n, int delim, FILE *stream);**/
 /** ssize_t getline(char **lineptr, size_t *n, FILE *stream);**/
 
         int len = 17;
         char* line = (char *)calloc(32, sizeof(char));
+
         for(int i=0 ; i< DIMENSION ; i++){
 
             getline((char**)&line, (size_t *)&len, (FILE *)fp);
@@ -100,34 +93,16 @@ void Sudoku::load_problem(){
 
 
             for(int col=0 ; col < 2*DIMENSION+1 ; col+=2){
-                     printf("%c\t",line[col]);
                      board[i][col/2] = line[col];
-
-            }//cout<<endl;
+            }
 
         }
-
-
-        cout<<"another approach"<<endl;
-        printf("%c",line[0]);
-        printf("%c",line[1]);
-
-       /*
-       for(int row=0 ; row< DIMENSION ; row++){
-           for(int col=0 ; col < DIMENSION ; col++){
-              fscanf(fp, "%c", buffer);
-              board[row][col] = buffer;
-           } fscanf(fp, "%c", buffer);
-
-
-
-       }*/
 
     fclose(fp);
 
 
 }
-void Sudoku::write_in_file(char* filename){
+void Sudoku::write_in_file(const char* filename){
 
     FILE *fptr;
     fptr = fopen(filename,"w");
@@ -290,10 +265,12 @@ Sudoku s;
 //s.fill_board();
 s.load_problem();
 s.print_board();
-s.write_problem();
-s.print_board();
+
+//s.write_problem();
+//s.print_board();
 s.solve();
 s.print_board();
+s.write_answer();
 //write_in_file("problem.txt",s)
 //concatinate all functions in one >> run();
 //write_in_file("problem.txt",DIMENSION);
