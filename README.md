@@ -46,5 +46,5 @@ License
 Screenshots
 ----
 ![Compile_terminal](https://github.com/Hagar-Usama/Sudoku_Solver/blob/master/screenshots/compile_in_terminal.png)
-![run_script](https://github.com/Hagar-Usama/Sudoku_Solver/blob/master/screenshots/shell_config.png)
+
 ![sample_run](https://github.com/Hagar-Usama/Sudoku_Solver/blob/master/screenshots/problem%26answer.png)
