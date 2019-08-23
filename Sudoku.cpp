@@ -80,7 +80,6 @@ void Sudoku::load_problem(){
        int size;
        char buffer[19];
 
-
        fp = fopen("problem.txt","r");
        if(fp == NULL) {
           perror("Error");
@@ -92,45 +91,26 @@ void Sudoku::load_problem(){
 /** getdelim(char **lineptr, size_t *n, int delim, FILE *stream);**/
 /** ssize_t getline(char **lineptr, size_t *n, FILE *stream);**/
 
-        int len = 18;
-
-        char* line = (char *)calloc(512, sizeof(char));
-       /*
-        if(NULL == line) {
-             // getline() will realloc() if too small
-            line = (char *)calloc(512, sizeof(char));
-        }
-        */
-
+        int len = 17;
+        char* line = (char *)calloc(32, sizeof(char));
         for(int i=0 ; i< DIMENSION ; i++){
 
             getline((char**)&line, (size_t *)&len, (FILE *)fp);
             printf("line is : %s",line);
 
+
+            for(int col=0 ; col < 2*DIMENSION+1 ; col+=2){
+                     printf("%c\t",line[col]);
+                     board[i][col/2] = line[col];
+
+            }//cout<<endl;
+
         }
 
-  /*
-        for(int i=0 ; i<DIMENSION*2 ; i++){
-            //fscanf(fp, "%18[^\n]\n", buffer);
-            fgets(buffer, sizeof(buffer), fp);
-            //c = fgetc(fp);
-            printf("Line #%d:", i);
-            printf("%s\n",buffer);
-           //fscanf(fp, "%[^\n]", buffer);
 
-         }
-*/
-/*
-
-        for(int row=0 ; row< DIMENSION ; row++){
-           for(int col=0 ; col < 2*DIMENSION+1 ; col++){
-              c = fgetc(fp);
-              if(col%2 == 0){
-               board[row][col] = c;
-              }
-           }
-       }
-*/
+        cout<<"another approach"<<endl;
+        printf("%c",line[0]);
+        printf("%c",line[1]);
 
        /*
        for(int row=0 ; row< DIMENSION ; row++){
@@ -143,13 +123,6 @@ void Sudoku::load_problem(){
 
        }*/
 
-       /*
-       fgets(buff, 255, (FILE*)fp);
-       printf("2: %s\n", buff );
-
-       fgets(buff, 255, (FILE*)fp);
-       printf("3: %s\n", buff );
-    */
     fclose(fp);
 
 
